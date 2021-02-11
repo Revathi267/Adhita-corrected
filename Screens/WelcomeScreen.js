@@ -46,7 +46,7 @@ export default class WelcomeScreen extends Component{
     userLogin = (emailId, password) =>{
         firebase.auth().signInWithEmailAndPassword(emailId, password)
         .then(()=>{
-            return Alert.alert("Login Successful");
+            this.props.navigation.navigate('DonateBooks')
         })
         .catch(function(error){
             var errorCode = error.code;
@@ -59,7 +59,7 @@ export default class WelcomeScreen extends Component{
             <Modal 
                 animationType = "fade"
                 transparent = {true}
-                visible = {this.setState.isModalVisible}
+                visible = {this.state.isModalVisible}
             >
             <View style = {styles.modalContainer}>
                 <ScrollView style = {{width:'100%'}}>
@@ -160,9 +160,9 @@ export default class WelcomeScreen extends Component{
         return(
             <View style = {styles.container}>
                 <View style={{justifyContent: 'center',alignItems: 'center'}}>
-                    {this.showModal()}
+                    
                 </View>
-      
+                {this.showModal()}
                 <View style = {styles.profileContainer}>
                     <SantaAnimation/>
                     <Text style = {styles.title}>Book Santa</Text>
