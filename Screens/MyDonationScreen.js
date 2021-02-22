@@ -3,7 +3,7 @@ import {View, Text,TouchableOpacity,ScrollView,FlatList,StyleSheet} from 'react-
 import {Card,Icon,ListItem} from 'react-native-elements'
 import MyHeader from '../components/MyHeader.js'
 import firebase from 'firebase';
-import db from '../Config'
+import db from '../Config.js'
 
 export default class MyDonationScreen extends Component {
   static navigationOptions = { header: null };

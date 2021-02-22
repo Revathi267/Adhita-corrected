@@ -1,55 +1,67 @@
-import React from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
+import React ,{Component} from 'react';
+import {View,Text,StyleSheet,TouchableOpacity} from 'react-native';
+import{Card,Header,Icon} from 'react-native-elements';
 import firebase from 'firebase';
-import db from '../Config'
-import {Header, Card, Icon} from 'react-native-elements'
 
-export default class ReceiverDetailsScreen extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            userId : firebase.auth().currentUser.email,
-            receiverId : this.props.navigation.getParam('details') ['user_id'],
-            requestId : this.props.navigation.getParam('details') ['request_id'],
-            bookName : this.props.navigation.getParam('details') ['book_name'],
-            reason_for_requesting : this.props.navigation.getParam('details') ['reason_to_request'],
-            receiverName: '',
-            receiverContact: '',
-            receiverAddress: '',
-            receiverRequestDocId : '',
-        }
+import db from '../Config.js';
+
+export default class RecieverDetailsScreen extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      userId          : firebase.auth().currentUser.email,
+      recieverId      : this.props.navigation.getParam('details')["user_id"],
+      requestId       : this.props.navigation.getParam('details')["request_id"],
+      bookName        : this.props.navigation.getParam('details')["book_name"],
+      reason_for_requesting     : this.props.navigation.getParam('details')["reason_to_request"],
+      recieverName    : '',
+      recieverContact : '',
+      recieverAddress : '',
+      recieverRequestDocId : ''
     }
-    getReceiverDetails() {
-        db.collection("users").where("email_id", "==", this.state.receiverId).get()
-        .then(snapshot=> {
-            snapshot.forEach(doc=>{
-                this.setState({
-                    receiverName : doc.data().first_name,
-                    receiverContact: doc.data().contact,
-                    receiverAddress: doc.data().address,
-                })
-            })
-        })
-        db.collection('requested_books').where('request_id','==',this.state.requestId).get()
-        .then(snapshot=>{
-            snapshot.forEach(doc => {
-            this.setState({recieverRequestDocId:doc.id})
-        })
+  }
+
+
+
+getRecieverDetails(){
+  db.collection('users').where('email_id','==',this.state.recieverId).get()
+  .then(snapshot=>{
+    snapshot.forEach(doc=>{
+      this.setState({
+        recieverName    : doc.data().first_name,
+        recieverContact : doc.data().contact,
+        recieverAddress : doc.data().address,
+      })
     })
-    }
+  });
 
-    updateBookStatus() {
-        db.collection('all_donations').add({
-            book_name           : this.state.bookName,
-            request_id          : this.state.requestId,
-            requested_by        : this.state.recieverName,
-            donor_id            : this.state.userId,
-            request_status      :  "Donor Interested"
-        })
-    }
-    render() {
-        return(
-            <View style={styles.container}>
+  db.collection('requested_books').where('request_id','==',this.state.requestId).get()
+  .then(snapshot=>{
+    snapshot.forEach(doc => {
+      this.setState({recieverRequestDocId:doc.id})
+   })
+})}
+
+updateBookStatus=()=>{
+  db.collection('all_donations').add({
+    book_name           : this.state.bookName,
+    request_id          : this.state.requestId,
+    requested_by        : this.state.recieverName,
+    donor_id            : this.state.userId,
+    request_status      :  "Donor Interested"
+  })
+}
+
+
+
+componentDidMount(){
+  this.getRecieverDetails()
+}
+
+
+  render(){
+    return(
+      <View style={styles.container}>
         <View style={{flex:0.1}}>
           <Header
             leftComponent ={<Icon name='arrow-left' type='feather' color='#696969'  onPress={() => this.props.navigation.goBack()}/>}
@@ -107,3 +119,29 @@ export default class ReceiverDetailsScreen extends React.Component{
   }
 
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+  },
+  buttonContainer : {
+    flex:0.3,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  button:{
+    width:200,
+    height:50,
+    justifyContent:'center',
+    alignItems : 'center',
+    borderRadius: 10,
+    backgroundColor: 'orange',
+    shadowColor: "#000",
+    shadowOffset: {
+       width: 0,
+       height: 8
+     },
+    elevation : 16
+  }
+})

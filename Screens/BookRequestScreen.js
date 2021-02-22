@@ -1,12 +1,5 @@
 import React,{Component} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  StyleSheet,
-  TouchableOpacity,
-  Alert} from 'react-native';
+import {View,Text,TextInput,KeyboardAvoidingView,StyleSheet,TouchableOpacity,Alert} from 'react-native';
 import db from '../Config';
 import firebase from 'firebase';
 import MyHeader from '../components/MyHeader'
@@ -49,7 +42,7 @@ export default class BookRequestScreen extends Component{
   render(){
     return(
         <View style={{flex:1}}>
-          <MyHeader title="Request Book"/>
+          <MyHeader title="Request Book" navigation ={this.props.navigation}/>
             <KeyboardAvoidingView style={styles.keyBoardStyle}>
               <TextInput
                 style ={styles.formTextInput}

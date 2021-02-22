@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Alert} from 'react-native';
+import {View,Text,KeyboardAvoidingView,TextInput,StyleSheet,ScrollView,TouchableOpacity,Alert} from 'react-native';
 import MyHeader from '../components/MyHeader'
 import db from '../Config'
 import firebase from 'firebase'

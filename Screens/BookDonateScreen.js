@@ -9,6 +9,7 @@ export default class BookDonateScreen extends Component{
   constructor(){
     super()
     this.state = {
+      userId  : firebase.auth().currentUser.email,
       requestedBooksList : []
     }
   this.requestRef= null
@@ -17,7 +18,7 @@ export default class BookDonateScreen extends Component{
   getRequestedBooksList =()=>{
     this.requestRef = db.collection("requested_books")
     .onSnapshot((snapshot)=>{
-      var requestedBooksList = snapshot.docs.map((doc) => doc.data());
+      var requestedBooksList = snapshot.docs.map((doc) => doc.data())
       this.setState({
         requestedBooksList : requestedBooksList
       });
@@ -43,9 +44,10 @@ export default class BookDonateScreen extends Component{
         titleStyle={{ color: 'black', fontWeight: 'bold' }}
         rightElement={
             <TouchableOpacity style={styles.button}
-              onPress = {()=>{
-                this.props.navigation.navigate("ReceiverDetails", {"details": item});
-              }}>
+              onPress ={()=>{
+                this.props.navigation.navigate("RecieverDetails",{"details": item})
+              }}
+              >
               <Text style={{color:'#ffff'}}>View</Text>
             </TouchableOpacity>
           }
@@ -57,7 +59,7 @@ export default class BookDonateScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-        <MyHeader title="Donate Books"/>
+        <MyHeader title="Donate Books" navigation ={this.props.navigation}/>
         <View style={{flex:1}}>
           {
             this.state.requestedBooksList.length === 0
